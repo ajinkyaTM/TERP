@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Technology__c</fullName>
+    <label>Technology</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Salesforce</fullName>
+                <default>false</default>
+                <label>Salesforce</label>
+            </value>
+            <value>
+                <fullName>IT Help Desk</fullName>
+                <default>false</default>
+                <label>IT Help Desk</label>
+            </value>
+            <value>
+                <fullName>Cybersecurity</fullName>
+                <default>false</default>
+                <label>Cybersecurity</label>
+            </value>
+            <value>
+                <fullName>Shopify</fullName>
+                <default>false</default>
+                <label>Shopify</label>
+            </value>
+            <value>
+                <fullName>Magento</fullName>
+                <default>false</default>
+                <label>Magento</label>
+            </value>
+            <value>
+                <fullName>Mobile App</fullName>
+                <default>false</default>
+                <label>Mobile App</label>
+            </value>
+            <value>
+                <fullName>Website Development</fullName>
+                <default>false</default>
+                <label>Website Development</label>
+            </value>
+            <value>
+                <fullName>Sugar CRM</fullName>
+                <default>false</default>
+                <label>Sugar CRM</label>
+            </value>
+            <value>
+                <fullName>vTiger CRM</fullName>
+                <default>false</default>
+                <label>vTiger CRM</label>
+            </value>
+            <value>
+                <fullName>Digital Marketing</fullName>
+                <default>false</default>
+                <label>Digital Marketing</label>
+            </value>
+            <value>
+                <fullName>Exact</fullName>
+                <default>false</default>
+                <label>Exact</label>
+            </value>
+            <value>
+                <fullName>Channel Partners</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Channel Partners</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
