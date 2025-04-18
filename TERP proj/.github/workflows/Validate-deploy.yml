@@ -1,0 +1,52 @@
+name: Validate Salesforce Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  validate-deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set up Salesforce CLI
+      run: npm install --global @salesforce/cli
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.13.2
+
+    - name: Run generateXML.py
+      run: |
+        python generateXML.py \
+          --base_branch ${{ github.event.pull_request.base.ref }} \
+          --compare_branch ${{ github.event.pull_request.head.ref }}
+
+    - name: Decode JWT key
+      run: |
+        echo "${{ secrets.SF_JWT_SECRET }}" > server.key
+
+    - name: Authenticate with Salesforce (sf CLI)
+      run: |
+        sf org login jwt \
+          --client-id ${{ secrets.SF_CONSUMER_KEY }} \
+          --jwt-key-file server.key \
+          --username ${{ secrets.SF_USERNAME }} \
+          --instance-url ${{ secrets.SF_INSTANCE_URL }} \
+          --alias ci-org \
+          --set-default
+
+    - name: Validate Deployment using package.xml
+      run: |
+        sf project deploy validate \
+          --manifest package.xml \
+          --target-org ci-org \
+          --test-level RunLocalTests \
+          --wait 10 \
+          --verbose

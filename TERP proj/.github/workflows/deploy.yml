@@ -1,0 +1,58 @@
+name: Deploy Salesforce to Main Org
+
+on:
+  push:
+    branches: [main, development]
+
+jobs:
+  generate-xml:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+            fetch-depth: 0  # Fetch the full history
+
+      - name: Set up Salesforce CLI
+        run: npm install --global @salesforce/cli
+
+      - name: Fetch base and head branches/commits
+        run: |
+            git fetch origin ${{ github.event.before }}:${{ github.event.before }}
+            git fetch origin ${{ github.sha }}:${{ github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+            python-version: 3.13.2
+
+      - name: Run generateXML.py
+        run: |
+            python generateXML.py --base_commit ${{ github.event.before }} --head_commit ${{ github.sha }}
+
+      - name: Decode JWT key
+        run: |
+          echo "${{ secrets.SF_JWT_SECRET }}" | base64 --decode > server.key
+
+      - name: Authenticate with Salesforce
+        run: |
+          sfdx force:auth:jwt:grant --client-id ${{ secrets.SF_CONSUMER_KEY }} --jwt-key-file server.key --username ${{ secrets.SF_USERNAME }} --instance-url ${{ secrets.SF_INSTANCE_URL }}
+    
+      - name: Convert to metadata format
+        run: |
+          sfdx force:source:convert -r force-app -d mdapi_output
+
+      - name: Deploy metadata
+        run: |
+          sfdx force:mdapi:deploy -d mdapi_output -u ${{ secrets.SF_USERNAME }} \
+            -w 10 -l RunLocalTests
+
+      - name: Deploy destructive changes (if any)
+        if: ${{ hashFiles('destructiveChanges.xml') != '' }}
+        run: |
+          mkdir -p destructive_tmp
+          cp destructiveChanges.xml destructive_tmp/
+          cp package.xml destructive_tmp/
+          sfdx force:mdapi:deploy -d destructive_tmp -u DevHub \
+            -w 10
