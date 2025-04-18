@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>EmailIdsForExpireContractEmailAlert</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailIdsForExpireContractEmailAlert</shortDescription>
+        <value>info@technologymindz.com</value>
+    </labels>
+    <labels>
+        <fullName>Test_Label_2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Test Label 2</shortDescription>
+        <value>Test name 2</value>
+    </labels>
+</CustomLabels>

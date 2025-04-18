@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MonthlyStats__c</fullName>
+    <label>Monthly Stats</label>
+    <referenceTo>Monthly_Stats__c</referenceTo>
+    <relationshipLabel>Weekly Stats</relationshipLabel>
+    <relationshipName>Weekly_Stats</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>
